@@ -1,8 +1,18 @@
-In this week, we learnt 
-1.GUI implementation using python libraries.
-2.Capturing input image in real time using opencv library.
-3.converting colored image to gray scale image.
-4.We have collected datasets from the website and trying to work on them.
-5.We are working on canny edge detection but we are finding some errors , we are working on them.
-6.We learnt CNN algorithm,we are working on implementation.
+Weekly Progress:
+•Installations: python IDLE
+1.We have started with GUI implementation using python libraries.
+  We are using tkinter python library to create a window.
+  We have to still do the gui the above snapshot is the practiced code snapshot.
 
+2.We learnt to capture input image using python libraries in real time.
+• We used opencv libraries.
+
+3.We have converted the captured image colored image into gray scale image(only for real time image)
+
+4.We have collected datasets from https://www.kaggle.com/ryeltsin/finger-vein this website.
+
+5.We are trying to implement canny edge detection but there are some errors we are looking into that.
+
+6.We have rectified the error while installing and could execute sample canny edge detection program for one data.
+
+7.We are working on CNN implementation.
