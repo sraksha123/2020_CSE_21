@@ -1,135 +1,59 @@
-import cv2                 
-import numpy as np         
-import os                  
-from random import shuffle 
-from tqdm import tqdm
-
-##from keras.preprocessing.image import ImageDataGenerator
-##from keras.models import Sequential
-##from keras.layers import Conv2D, MaxPooling2D
-##from keras.layers import Activation, Dropout, Flatten, Dense
-##from keras import backend as K
-##from keras.preprocessing import image 
-##
-##import numpy as np
+from tkinter import *
+from PIL import Image,ImageTk
+import cv2  
+import time
+import sys
+import os
+class Register:
+    def _init_(self,root):
+        self.root=root
+        self.root.title("Registration window")
+        self.root.geometry("1350x700+0+0")
+        self.root.config(bg="lightblue")
 
 
-##TRAIN_DIR = 'E:/P_2020/PlantDisease-master/leaf-disease/Datasets/D'
-##TEST_DIR = 'E:/P_2020/PlantDisease-master/leaf-disease/Datasets/D/test'
+        #self.bg=ImageTk.PhotoImage(file="C:\\Users\\Ravish Reddy\\Desktop\\PROJECT\\bg1.jpg")
+        #bg=Label(self.root,image=self.bg).place(x=250,y=0,relwidth=1,relheight=1)
 
-TRAIN_DIR = 'C:\\Users\\Ravish Reddy\\Desktop\\finger_vein_detection\\train'
-TEST_DIR = 'C:\\Users\\HP\\Ravish Reddy\\finger_vein_detection\\test'
+        self.left=ImageTk.PhotoImage(file="C:\\Users\\Ravish Reddy\\Desktop\\PROJECT\\bg1.jpg")
+        left=Label(self.root,image=self.left).place(x=80,y=100,width=400,height=500)
 
-IMG_SIZE = 50
-LR = 1e-3
-MODEL_NAME = 'finger_vein_detection-{}-{}.model'.format(LR, '2conv-basic')
+        frame1=Frame(self.root,bg="lightblue")
+        frame1.place(x=480,y=100,width=700,height=500)
 
-##
-##if K.image_data_format() == 'channels_first':
-##    shape = (3, IMG_SIZE, IMG_SIZE)
-##else:
-##    shape = (IMG_SIZE, IMG_SIZE, 3)
-##
-##    
-def label_img(img):
-    word_label = img[0]
-    print(word_label)
-  
-    if word_label == 'm':
-        print('Megha')
-        return [1,0,0,0]
-    
-    elif word_label == 'k':
-        print('Keerthi')
-        return [0,1,0,0]
-    
-    elif word_label == 'r':
-        print('Raksha')
-        return [0,0,1,0]
-    
-    elif word_label == 'h':
-        print('MehaHS')
-        return [0,0,0,1]
-   
+        title=Label(frame1,text="Register here",font=("times new roman",20,"bold"),bg="lightblue",fg="blue").place(x=50,y=30)
+        f_name=Label(frame1,text="First Name",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=50,y=100)
+        txt_fname=Entry(frame1,font=("times new roman",15),bg="lightgray").place(x=50,y=130,width=250)
 
-def create_train_data():
-    training_data = []
-    for img in tqdm(os.listdir(TRAIN_DIR)):
-        label = label_img(img)
-        print('##############')
-        print(label)
-        path = os.path.join(TRAIN_DIR,img)
-        img = cv2.imread(path,cv2.IMREAD_COLOR)
-        img = cv2.resize(img, (IMG_SIZE,IMG_SIZE))
-        training_data.append([np.array(img),np.array(label)])
-    shuffle(training_data)
-    np.save('train_data.npy', training_data)
-    return training_data
+        l_name=Label(frame1,text="Last Name",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=370,y=100)
+        txt_lname=Entry(frame1,font=("times new roman",15),bg="lightgray").place(x=370,y=130,width=250)
 
-def process_test_data():
-    testing_data = []
-    for img in tqdm(os.listdir(TEST_DIR)):
-        path = os.path.join(TEST_DIR,img)
-        img_num = img.split('.')[0]
-        img = cv2.imread(path,cv2.IMREAD_COLOR)
-        img = cv2.resize(img, (IMG_SIZE,IMG_SIZE))
-        testing_data.append([np.array(img), img_num])
+        c_no=Label(frame1,text="Contact Number",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=50,y=170)
+        txt_cno=Entry(frame1,font=("times new roman",15),bg="lightgray").place(x=50,y=200,width=250)
+
+        email=Label(frame1,text="Email-id",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=370,y=170)
+        txt_email=Entry(frame1,font=("times new roman",15),bg="lightgray").place(x=370,y=200,width=250)
+
+
+        #self.btn_img=ImageTk.PhotoImage(file="C:\\Users\\Ravish Reddy\\Desktop\\PROJECT\\r1.png")
+        #btn=Button(frame1,image=self.btn_img).place(x=50,y=350,width=350,height=60)
+        btn=Button(frame1,text="REGISTER",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=50,y=350,width=250)
+        btn=Button(frame1,text="QUIT!",command=self.root.destroy,font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=50,y=450,width=250)
         
-    shuffle(testing_data)
-    np.save('test_data.npy', testing_data)
-    return testing_data
+        btn=Button(frame1,text="click here to login with fingervein",font=("times new roman",15,"bold"),bg="lightblue",fg="blue").place(x=370,y=450,width=300)
+        cam=cv2.VideoCapture(0)
+        while (True):
+            ret, frame=cam.read()
+            cv2.imshow('photo',frame)
+            gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+            cv2.imwrite('image.png',gray)
+            cam.release()
+           
 
-train_data = create_train_data()
-# If you have already created the dataset:
-#train_data = np.load('train_data.npy')
+        
+        
 
-
-import tflearn
-from tflearn.layers.conv import conv_2d, max_pool_2d
-from tflearn.layers.core import input_data, dropout, fully_connected
-from tflearn.layers.estimator import regression
-import tensorflow as tf
-#tf.reset_default_graph()
-
-convnet = input_data(shape=[None, IMG_SIZE, IMG_SIZE, 3], name='input')
-
-convnet = conv_2d(convnet, 32, 3, activation='relu')
-convnet = max_pool_2d(convnet, 3)
-
-convnet = conv_2d(convnet, 64, 3, activation='relu')
-convnet = max_pool_2d(convnet, 3)
-
-convnet = conv_2d(convnet, 128, 3, activation='relu')
-convnet = max_pool_2d(convnet, 3)
-
-convnet = conv_2d(convnet, 32, 3, activation='relu')
-convnet = max_pool_2d(convnet, 3)
-
-convnet = conv_2d(convnet, 64, 3, activation='relu')
-convnet = max_pool_2d(convnet, 3)
-
-convnet = fully_connected(convnet, 1024, activation='relu')
-convnet = dropout(convnet, 0.8)
-
-convnet = fully_connected(convnet, 4, activation='softmax')
-convnet = regression(convnet, optimizer='adam', learning_rate=LR, loss='categorical_crossentropy', name='targets')
-
-model = tflearn.DNN(convnet, tensorboard_dir='log')
-
-if os.path.exists('{}.meta'.format(MODEL_NAME)):
-    model.load(MODEL_NAME)
-    print('model loaded!')
-
-train = train_data[:-100]
-test = train_data[-100:]
-
-X = np.array([i[0] for i in train]).reshape(-1,IMG_SIZE,IMG_SIZE,3)
-Y = [i[1] for i in train]
-print(X.shape)
-test_x = np.array([i[0] for i in test]).reshape(-1,IMG_SIZE,IMG_SIZE,3)
-test_y = [i[1] for i in test]
-print(test_x.shape)
-
-model.fit({'input': X}, {'targets': Y},n_epoch=50, validation_set=({'input': test_x}, {'targets': test_y}),snapshot_step=20, show_metric=True, run_id=MODEL_NAME)
-
-model.save(MODEL_NAME)
+        
+root=Tk()
+obj=Register(root)
+root.mainloop()
