@@ -22,7 +22,7 @@ Week 1,2 progress:
 
 Week 3 progess:
 
-1. We have improvised gui using youtube tutorials and other.
+1. We have improvised gui using youtube tutorials and edureka website.
 
 2. We used filtering techniques to remove noise from the image.
 
