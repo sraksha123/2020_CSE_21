@@ -18,7 +18,6 @@ Week 1,2 progress:
 
 6.We have rectified the error while installing and could execute sample canny edge detection program for one data.
 
-7.We are working on CNN implementation.
 
 Week 3 progess:
 
