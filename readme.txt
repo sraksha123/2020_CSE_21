@@ -8,7 +8,7 @@ Week 1,2 progress:
   We have to still do the gui the above snapshot is the practiced code snapshot.
 
 2.We learnt to capture input image using python libraries in real time.
-• We used opencv libraries.
+  We used opencv libraries.
 
 3.We have converted the captured image colored image into gray scale image(only for real time image)
 
