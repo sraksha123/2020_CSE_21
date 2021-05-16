@@ -14,18 +14,17 @@ from tqdm import tqdm
 ##import numpy as np
 
 
-##TRAIN_DIR = 'E:/P_2020/PlantDisease-master/leaf-disease/Datasets/D'
-##TEST_DIR = 'E:/P_2020/PlantDisease-master/leaf-disease/Datasets/D/test'
 
-TRAIN_DIR = 'C:\\Users\\Ravish Reddy\\Desktop\\finger_vein_detection\\train'
-TEST_DIR = 'C:\\Users\\HP\\Ravish Reddy\\finger_vein_detection\\test'
+
+TRAIN_DIR = 'C:\\Users\\HP\\Desktop\\finger\\train'
+TEST_DIR = 'C:\\Users\\HP\\Desktop\\finger\\test'
 
 IMG_SIZE = 50
 LR = 1e-3
-MODEL_NAME = 'finger_vein_detection-{}-{}.model'.format(LR, '2conv-basic')
+MODEL_NAME = 'healthyvsunhealthyBone-new-{}-{}.model'.format(LR, '2conv-basic')
 
 ##
-##if K.image_data_format() == 'channels_first':
+    ##if K.image_data_format() == 'channels_first':
 ##    shape = (3, IMG_SIZE, IMG_SIZE)
 ##else:
 ##    shape = (IMG_SIZE, IMG_SIZE, 3)
@@ -35,22 +34,14 @@ def label_img(img):
     word_label = img[0]
     print(word_label)
   
-    if word_label == 'm':
-        print('Megha')
-        return [1,0,0,0]
+    if word_label == 'a':
+        print('name1')
+        return [1,0]
     
-    elif word_label == 'k':
-        print('Keerthi')
-        return [0,1,0,0]
-    
-    elif word_label == 'r':
-        print('Raksha')
-        return [0,0,1,0]
-    
-    elif word_label == 'h':
-        print('MehaHS')
-        return [0,0,0,1]
-   
+    elif word_label == 'b':
+        print('name2 ')
+        return [0,1]
+
 
 def create_train_data():
     training_data = []
@@ -66,7 +57,20 @@ def create_train_data():
     np.save('train_data.npy', training_data)
     return training_data
 
-
+def process_test_data():
+    testing_data = []
+    for img in tqdm(os.listdir(TEST_DIR)):
+        path = os.path.join(TEST_DIR,img)
+        img_num = img.split('.')[0]
+        img = cv2.imread(path,cv2.IMREAD_COLOR)
+        img = cv2.resize(img, (IMG_SIZE,IMG_SIZE))
+        kp =sift.detect(img, None)
+        img=cv2.drawKepoints(img, kp , None)
+        testing_data.append([np.array(img), img_num])
+        
+    shuffle(testing_data)
+    np.save('test_data.npy', testing_data)
+    return testing_data
 
 train_data = create_train_data()
 # If you have already created the dataset:
@@ -97,10 +101,11 @@ convnet = max_pool_2d(convnet, 3)
 convnet = conv_2d(convnet, 64, 3, activation='relu')
 convnet = max_pool_2d(convnet, 3)
 
+
 convnet = fully_connected(convnet, 1024, activation='relu')
 convnet = dropout(convnet, 0.8)
 
-convnet = fully_connected(convnet, 4, activation='softmax')
+convnet = fully_connected(convnet, 2, activation='softmax')
 convnet = regression(convnet, optimizer='adam', learning_rate=LR, loss='categorical_crossentropy', name='targets')
 
 model = tflearn.DNN(convnet, tensorboard_dir='log')
@@ -119,6 +124,18 @@ test_x = np.array([i[0] for i in test]).reshape(-1,IMG_SIZE,IMG_SIZE,3)
 test_y = [i[1] for i in test]
 print(test_x.shape)
 
-model.fit({'input': X}, {'targets': Y},n_epoch=50, validation_set=({'input': test_x}, {'targets': test_y}),snapshot_step=20, show_metric=True, run_id=MODEL_NAME)
+model.fit({'input': X}, {'targets': Y},n_epoch=100, validation_set=({'input': test_x}, {'targets': test_y}),snapshot_step=20, show_metric=True, run_id=MODEL_NAME)
 
 model.save(MODEL_NAME)
+
+
+
+
+
+
+
+
+
+
+
+        
