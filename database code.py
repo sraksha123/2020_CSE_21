@@ -3,7 +3,6 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 import tkinter as ttk
 
-
 def insert():
     name=e_name.get();
     phone=e_phone.get();
