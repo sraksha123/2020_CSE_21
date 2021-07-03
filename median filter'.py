@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 e1 = cv2.getTickCount()
 img = cv2.imread('img2.bmp')
-
 median = cv2.medianBlur(img,5) 
 e2 = cv2.getTickCount()
 t = (e2-e1)/cv2.getTickFrequency()
