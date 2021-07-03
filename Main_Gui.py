@@ -21,12 +21,8 @@ root.geometry("1100x750")
 BG = PhotoImage(file = 'bg3.png')
 label = ttk.Label(root, image = BG ,bd=0)
 
-
-
 lbl = tk.Label(root, text="FINGER VEIN RECOGNITION",width=30  ,height=1  ,fg="Black"  ,bg="light blue" ,font=('Arial', 30, ' bold ') ) 
 lbl.place(x=200, y=2)
-
-
 
 lbl2 = tk.Label(root, text="Enter  Name",width=15  ,fg="Black"  ,bg="White"    ,height=1 ,font=('Arial', 15, ' bold ')) 
 lbl2.place(x=300, y=150)
@@ -151,7 +147,6 @@ def analysis():
             str_label = 'Meghana G R'
         
         
-
    
         if str_label == name:
             global status
@@ -236,10 +231,6 @@ button1.place(x=500,y=200)
 #button1.grid(column=0, row=1, padx=10, pady = 10)
 
 ##root.mainloop()
-
-
-
-
 
 label.pack()
 #root.bind('<congigure>',resizer)
